@@ -13,7 +13,15 @@ const port = env.port || '4000';
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: ['http://localhost:4000', 'http://localhost:4200'] // [server-adresa, production-adresa]
+}));
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");    
+  next();
+});
 app.use(express.json());
 
 app.get('/', (_: express.Request, res: express.Response) => {
