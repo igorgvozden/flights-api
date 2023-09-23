@@ -1,25 +1,30 @@
+import { Flight } from "../types";
+
 export class Ticket {
-    constructor(id: string, flightNumber: string, price: string, currency: string, travelDate: string, status: string, complete: boolean) {
+    constructor(id: string, price: string, currency: string, status: string, expired: boolean, booked: boolean, purchased: boolean, flight: Flight) {
         this.id = id;
-        this.flightNumber = flightNumber;
         this.price = price;
         this.currency = currency;
-        this.travelDate = travelDate;
         this.status = status;
-        this.complete = complete
+        this.expired = expired;
+        this.booked = booked;
+        this.purchased = purchased;
+        this.flight = flight;
     }
 
     id;
-
-    flightNumber;
 
     price;
 
     currency;
 
-    travelDate;
-
     status;
 
-    complete;
+    booked;
+
+    purchased;
+
+    expired;
+
+    flight;
 }

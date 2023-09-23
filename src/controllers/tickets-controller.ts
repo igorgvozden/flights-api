@@ -51,7 +51,7 @@ export const makeReservation1 = (req: Request, res: Response) => {
     let response;
 
     const reserveTicket = (ticketToStore: Ticket, user: UserData) => {
-        const isReserved: boolean = !user.tickets.some(ticket => ticket.flightNumber === ticketToStore.flightNumber); 
+        const isReserved: boolean = !user.tickets.some(ticket => ticket.flight.flightNumber === ticketToStore.flight.flightNumber); 
         const newTicket: Ticket = ticketToStore;
         newTicket.id = createTicketId(user.tickets);
 
@@ -105,7 +105,7 @@ export const makeReservation = (req: Request, res: Response) => {
         return response;
     }
     
-    const alreadyReserved = user?.tickets.some(ticket => ticket.flightNumber === requestBody.flightNumber);
+    const alreadyReserved = user?.tickets.some(ticket => ticket.flight.flightNumber === requestBody.flight.flightNumber);
 
     if (alreadyReserved) {
         response = res.status(400).json('You have already reserved this flight');
@@ -134,6 +134,8 @@ export const payTicket = (req: Request, res: Response) => {
         response = res.status(200).json('Ticket was already paid');
     } else if (ticketToUpdate && ticketToUpdate.status !== 'paid') {
         ticketToUpdate.status = 'paid';
+        ticketToUpdate.booked = false;
+        ticketToUpdate.purchased = true;
         fsHelpers.updateDatabase(database, 'Ticket updated');
         response = res.status(200).json('Ticket paid');
     };
